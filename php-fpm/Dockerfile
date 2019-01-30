@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
 		libpng-dev \
         libxml2-dev \
         libmemcached-dev \
+        zip \
+        unzip \
+        php-pclzip \
     && docker-php-ext-install -j$(nproc) bcmath pdo_mysql \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \

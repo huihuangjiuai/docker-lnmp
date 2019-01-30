@@ -58,7 +58,7 @@ services:
     working_dir: /usr/share/nginx/html
     volumes:
       - '~/PhpstormProjects:/usr/share/nginx/html'
-      - './php-fpm:/etc/php/7.2/fpm/'
+      - './php-fpm:/usr/local/etc/php'
     restart: always
     networks:
       frontend:
