@@ -1,0 +1,94 @@
+version: '3.7'
+services:
+  memcached:
+    image: 'memcached:latest'
+    container_name: memcached
+    deploy:
+      restart_policy:
+        condition: always
+    networks:
+      backend:
+        ipv4_address: 172.20.0.3
+  mysql:
+    image: 'mysql:latest'
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - '3306:3306'
+    volumes:
+      - './mysql:/var/lib/mysql'
+    deploy:
+      restart_policy:
+        condition: always
+    networks:
+      backend:
+        ipv4_address: 172.20.0.6
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    container_name: mailhog
+    ports:
+      - '1025:8025'
+    deploy:
+      restart_policy:
+        condition: always
+    networks:
+      backend:
+        ipv4_address: 172.20.0.4
+  redis:
+    image: 'redis:latest'
+    container_name: redis
+    deploy:
+      restart_policy:
+        condition: always
+    networks:
+      backend:
+        ipv4_address: 172.20.0.2
+  webserver:
+    image: 'nginx:latest'
+    container_name: nginx
+    working_dir: /usr/share/nginx/html
+    volumes:
+      - '~/PhpstormProjects:/usr/share/nginx/html'
+      - './nginx:/etc/nginx'
+    deploy:
+      restart_policy:
+        condition: always
+    ports:
+      - '80:80'
+      - '443:443'
+    networks:
+      frontend:
+        ipv4_address: 172.10.0.3
+    depends_on:
+      - php-fpm
+  php-fpm:
+    build: php-fpm
+    container_name: php-fpm
+    working_dir: /usr/share/nginx/html
+    volumes:
+      - '~/PhpstormProjects:/usr/share/nginx/html'
+      - './php-fpm:/etc/php/7.2/fpm/'
+    deploy:
+      restart_policy:
+        condition: always
+    networks:
+      frontend:
+        ipv4_address: 172.10.0.2
+      backend:
+        ipv4_address: 172.20.0.5
+    depends_on:
+      - redis
+      - mysql
+      - memcached
+networks:
+  frontend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.10.0.0/16
+  backend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
