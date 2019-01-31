@@ -27,7 +27,8 @@ services:
     image: 'mailhog/mailhog:latest'
     container_name: mailhog
     ports:
-      - '1025:8025'
+      - '1025:1025'
+      - '8025:8025'
     restart: always
     networks:
       backend:
@@ -66,6 +67,7 @@ services:
     environment:
       - 'DATE_TIMEZONE=${DATE_TIMEZONE}'
       - 'DISPLAY_ERRORS=${DISPLAY_ERRORS}'
+      - 'SENDMAIL_PATH=${SENDMAIL_PATH}'
     networks:
       frontend:
         ipv4_address: 172.10.0.2
