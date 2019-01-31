@@ -11,11 +11,14 @@ services:
     image: 'mysql:latest'
     container_name: mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=password
+      - 'MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}'
+      - 'MYSQL_DATABASE=${MYSQL_DATABASE}'
+      - 'MYSQL_USER=${MYSQL_USER}'
+      - 'MYSQL_PASSWORD=${MYSQL_PASSWORD}'
     ports:
       - '3306:3306'
     volumes:
-      - './mysql:/var/lib/mysql'
+      - '${MYSQL_DATA}:/var/lib/mysql'
     restart: always
     networks:
       backend:
@@ -41,8 +44,8 @@ services:
     container_name: nginx
     working_dir: /usr/share/nginx/html
     volumes:
-      - '~/PhpstormProjects:/usr/share/nginx/html'
-      - './nginx:/etc/nginx'
+      - '${NGINX_ROOT}:/usr/share/nginx/html'
+      - '${NGINX_CONFIG}:/etc/nginx'
     restart: always
     ports:
       - '80:80'
@@ -57,9 +60,12 @@ services:
     container_name: php-fpm
     working_dir: /usr/share/nginx/html
     volumes:
-      - '~/PhpstormProjects:/usr/share/nginx/html'
-      - './php-fpm:/usr/local/etc/php'
+      - '${NGINX_ROOT}:/usr/share/nginx/html'
+      - '${PHP_CONFIG}:/usr/local/etc/php'
     restart: always
+    environment:
+      - 'DATE_TIMEZONE=${DATE_TIMEZONE}'
+      - 'DISPLAY_ERRORS=${DISPLAY_ERRORS}'
     networks:
       frontend:
         ipv4_address: 172.10.0.2
