@@ -4,3 +4,4 @@ nginx/ssl/*
 .env
 elasticsearch/data/*
 elasticsearch/logs/
+filebeat/logs/
