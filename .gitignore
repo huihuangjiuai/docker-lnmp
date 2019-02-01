@@ -3,3 +3,4 @@ nginx/sites-enabled/*
 nginx/ssl/*
 .env
 elasticsearch/data/*
+elasticsearch/logs/
