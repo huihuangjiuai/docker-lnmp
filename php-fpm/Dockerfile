@@ -1,5 +1,5 @@
 FROM php:7.2.14-fpm
-WORKDIR "/usr/share/nginx/html"
+WORKDIR /usr/share/nginx/html
 
 # bcmath pdo_mysql intl gd zip opcache xdebug redis memcached
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -27,6 +27,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Mailhog
-RUN wget https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+RUN curl -sS https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
     && chmod +x mhsendmail_linux_amd64 \
     && mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
