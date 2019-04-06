@@ -1,7 +1,6 @@
 mysql/*
 nginx/sites-enabled/*
-nginx/ssl/*
+nginx-ssl/sites-enabled/*
+nginx-ssl/ssl/*
 .env
 elasticsearch/data/*
-elasticsearch/logs/
-filebeat/logs/
