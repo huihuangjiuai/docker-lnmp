@@ -5,4 +5,4 @@ nginx-ssl/sites-enabled/*
 nginx-ssl/ssl/*
 .env
 elasticsearch/data/*
-nginx/sites-enabled
+nginx/sites-enabled/*
